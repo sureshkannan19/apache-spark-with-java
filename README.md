@@ -28,8 +28,8 @@ Although both Spark and MapReduce does data processing, the way its done is the 
   Spark will write to disk only when the memory is full.
 * **Flexible Storage system**: MapReduce requires files to be stored only in HDFS, while
     Spark can work on data stored in a variety of formats like **HDFS, AWS S3, Cassandra, HBase** etc.
-*  **Querying Capabilities**: Hadoop natively doesn't support querying, hence tools such as
-    **Hive, Hbase, Pig SqlEngines and SparkSQL**  is built on top of HDFS to provide querying features
+*  **Querying Capabilities**: Hadoop natively doesn't support querying data, hence tools such as
+    **Hive, Hbase, Pig, SparkSQL**  is built on top of HDFS to provide querying features
 * **SparkSql - DataFrame API** : a distributed collection of data organized into named columns, resembling a table in a relational database.
 * **Real-time analytics**: Spark is effective when compared to Hadoop
 
