@@ -37,8 +37,7 @@ Although both Spark and MapReduce does data processing, the way its done is the 
 <hr style="border: 3px solid;">
 
 ## Hadoop role in Spark:
-* Although Hadoop plays an optional role in the Apache Spark ecosystem, it primarily used as a **resource provider(YARN)**.
+* Although Hadoop plays an optional role in the Apache Spark ecosystem, it primarily used as a **resource provider(YARN)** to Spark Jobs.
 
-## Querying Hadoop:
 
 
