@@ -6,7 +6,7 @@ To understand the need for Spark, lets start with Hadoop.
 * **HDFS** (Hadoop Distributed File System): It acts as a **distributed storage layer**. 
   HDFS is great for storing large-scale data but **does not have querying capabilities**.
 * **MapReduce**: A distributed data processing framework that operates over the data stored in HDFS only. 
-* YARN (Yet Another Resource Manager): YARN as the cluster manager, allocates resources (CPU, memory) to Spark jobs.
+* YARN (Yet Another Resource Manager): YARN as the cluster manager, allocates resources (CPU, memory) to each nodes.
 
 # Spark:
 * Spark is a big data processing framework works in distributed environment, and its API provides a robust way
