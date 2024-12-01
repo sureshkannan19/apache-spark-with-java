@@ -8,11 +8,11 @@ import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 import java.util.List;
+import java.util.Scanner;
 
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 @Slf4j
 public class SparkApplication {
 
@@ -26,13 +26,6 @@ public class SparkApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SparkApplication.class, args);
-
-//        SparkConf sc = new SparkConf().setAppName("SparkBasics").setMaster("local[*]");
-//        JavaSparkContext jsc = new JavaSparkContext(sc);
-//        List<Integer> input = new ArrayList<>();
-//        JavaRDD<Integer> res = jsc.parallelize(input);
-//        jsc.close();
-
         try (SparkSession ss = SparkSession.builder().master("local[*]")
                 .appName("SparkBasics")
                 .getOrCreate();
@@ -40,6 +33,11 @@ public class SparkApplication {
             JavaRDD<Integer> result = jss.parallelize(List.of(1, 2, 3, 4, 5));
             log.info("Numbers count: {} ", result.count());
             log.info("Number of partitions: {} ", result.getNumPartitions());
+
+//            Dataset<Row> result = ss.sql("SELECT * FROM people WHERE age > 30");
+            try (var scanner = new Scanner(System.in)) {
+                scanner.nextLine();
+            }
         }
 
 
