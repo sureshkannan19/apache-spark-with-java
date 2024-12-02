@@ -6,7 +6,8 @@ To understand the need for Spark, lets start with Hadoop.
 * **HDFS** (Hadoop Distributed File System): It acts as a **distributed storage layer**. 
   HDFS is great for storing large-scale data but **does not have querying capabilities**.
 * **MapReduce**: A distributed data processing framework that operates over the data stored in HDFS only. 
-* **YARN** (Yet Another Resource Manager): YARN as the cluster manager, allocates resources (CPU, memory) to each nodes.
+* **YARN** (Yet Another Resource Manager): YARN as the cluster manager, allocates resources (CPU, memory) 
+ to worker nodes and schedules jobs.
 
 # Spark:
 * Spark is a big data processing framework works in distributed environment like Hadoop's MapReduce, and its API provides a robust way
@@ -48,4 +49,10 @@ Although both Spark and MapReduce does data processing, the way its done is the 
 * For details installation and explanation of Spark in Java, check out <a href="https://github.com/backstreetbrogrammer/11_JavaSpark#23-download-winutilsexe-and-hadoopdll-only-for-windows">this repo</a>
 
 ## JavaSparkContext:
+* It is the entry point for a Spark application.
 
+**Key Responsibilities:**
+* **Cluster Communication**: Connects with the cluster manager (YARN, Mesos, or Spark Standalone) to request resources for executing tasks.
+* **Job Scheduling**: Breaks down a Spark application into stages and tasks, then schedules their execution across the cluster.
+* **RDD Creation**: Creates RDDs from external data sources (e.g., HDFS, S3, local file systems).
+Broadcast Variables and Accumulators: Manages shared variables used across nodes.
