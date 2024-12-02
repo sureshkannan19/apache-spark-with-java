@@ -6,7 +6,7 @@ To understand the need for Spark, lets start with Hadoop.
 * **HDFS** (Hadoop Distributed File System): It acts as a **distributed storage layer**. 
   HDFS is great for storing large-scale data but **does not have querying capabilities**.
 * **MapReduce**: A distributed data processing framework that operates over the data stored in HDFS only. 
-* YARN (Yet Another Resource Manager): YARN as the cluster manager, allocates resources (CPU, memory) to each nodes.
+* **YARN** (Yet Another Resource Manager): YARN as the cluster manager, allocates resources (CPU, memory) to each nodes.
 
 # Spark:
 * Spark is a big data processing framework works in distributed environment like Hadoop's MapReduce, and its API provides a robust way
@@ -31,7 +31,9 @@ Although both Spark and MapReduce does data processing, the way its done is the 
 *  **Querying Capabilities**: Hadoop natively doesn't support querying data, hence tools such as
     **Hive, Hbase, Pig, SparkSQL**  is built on top of HDFS to provide querying features
 * **SparkSql - DataFrame API** : a distributed collection of data organized into named columns, resembling a table in a relational database.
-* **Real-time analytics**: Spark is effective when compared to Hadoop
+* **Real-time analytics**: Spark is effective when compared to Hadoop, because Hadoop persist to disk to store 
+  intermittent result of map and reduce operations, which results in lot of I/O operations,
+  hence hadoop not good for real-time and iterative processes.
 
 * Detailed explanation on Hadoop MapReduce Vs Spark (link to integrate.io ): <a href="https://www.integrate.io/blog/apache-spark-vs-hadoop-mapreduce/">Spark Vs Hadoop</a>
 <hr style="border: 3px solid;">
