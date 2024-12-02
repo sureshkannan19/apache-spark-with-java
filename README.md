@@ -33,7 +33,7 @@ Although both Spark and MapReduce does data processing, the way its done is the 
 * **SparkSql - DataFrame API** : a distributed collection of data organized into named columns, resembling a table in a relational database.
 * **Real-time analytics**: Spark is effective when compared to Hadoop
 
-* Detailed explanation on Hadoop MapReduce Vs Spark (link to integrate.io ): https://www.integrate.io/blog/apache-spark-vs-hadoop-mapreduce/
+* Detailed explanation on Hadoop MapReduce Vs Spark (link to integrate.io ): <a href="https://www.integrate.io/blog/apache-spark-vs-hadoop-mapreduce/">Spark Vs Hadoop</a>
 <hr style="border: 3px solid;">
 
 ## Hadoop role in Spark:
