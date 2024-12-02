@@ -52,7 +52,13 @@ Although both Spark and MapReduce does data processing, the way its done is the 
 * It is the entry point for a Spark application.
 
 **Key Responsibilities:**
-* **Cluster Communication**: Connects with the cluster manager (YARN, Mesos, or Spark Standalone) to request resources for executing tasks.
+* **Cluster Communication**: Connects with the cluster manager (YARN, Mesos, Kubernetes or Spark Standalone) to request resources for executing tasks.
 * **Job Scheduling**: Breaks down a Spark application into stages and tasks, then schedules their execution across the cluster.
 * **RDD Creation**: Creates RDDs from external data sources (e.g., HDFS, S3, local file systems).
 Broadcast Variables and Accumulators: Manages shared variables used across nodes.
+
+## Spark RDD:
+* **RDD**(Resilient Distributed Dataset) is the fundamental data abstraction in Spark.
+* It represents an **immutable** distributed collection of objects that can be processed in parallel across the cluster.
+* **Fault-tolerant**: meaning they can automatically recover lost partitions due to node failures.
+**Lazy Evaluation:** Transformations on RDDs are not executed immediately. They are only computed when an action is triggered.
