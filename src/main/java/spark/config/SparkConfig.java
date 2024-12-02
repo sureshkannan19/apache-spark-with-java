@@ -1,21 +1,23 @@
 package spark.config;
 
-import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SparkSession;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 public class SparkConfig {
 
-    public void getSparkConfig() {
-        SparkConf sc = new SparkConf().setAppName("SparkBasics").setMaster("local[*]");
-        JavaSparkContext jsc = new JavaSparkContext(sc);
-        List<Integer> input = new ArrayList<>();
-        JavaRDD<Integer> res = jsc.parallelize(input);
-        jsc.close();
+    @Bean("sparkSession")
+    public SparkSession getSparkSession() {
+        return SparkSession.builder().master("local[*]")
+                .appName("SparkBasics")
+                .getOrCreate();
+    }
+
+    @Bean("sparkContext")
+    public JavaSparkContext getSparkContext(@Qualifier("sparkSession") SparkSession ss) {
+        return new JavaSparkContext(ss.sparkContext());
     }
 }
