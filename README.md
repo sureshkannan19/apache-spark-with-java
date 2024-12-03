@@ -61,4 +61,4 @@ Broadcast Variables and Accumulators: Manages shared variables used across nodes
 * **RDD**(Resilient Distributed Dataset) is the fundamental data abstraction in Spark.
 * It represents an **immutable** distributed collection of objects that can be processed in parallel across the cluster.
 * **Fault-tolerant**: meaning they can automatically recover lost partitions due to node failures.
-**Lazy Evaluation:** Transformations on RDDs are not executed immediately. They are only computed when an action is triggered.
+* **Lazy Evaluation:** Transformations on RDDs are not executed immediately. They are only computed when an action is triggered.
