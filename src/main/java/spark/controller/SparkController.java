@@ -1,6 +1,7 @@
 package spark.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.*;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import scala.Tuple2;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,6 +28,10 @@ public class SparkController {
     @Autowired
     @Qualifier("sparkContext")
     private JavaSparkContext sparkContext;
+
+    @Autowired
+    @Qualifier("clusteredSparkContext")
+    private JavaSparkContext clusteredSparkContext;
 
     @GetMapping("/parallelize")
     public boolean parallelize() {
@@ -46,7 +52,6 @@ public class SparkController {
         nums.add(RowFactory.create("B", "2"));
         nums.add(RowFactory.create("C", "3"));
 
-
         Dataset<Row> df = sparkSession.createDataFrame(nums, structType);
         df.createOrReplaceTempView("Alphabets");
 
@@ -55,25 +60,61 @@ public class SparkController {
         return true;
     }
 
-    @GetMapping("/dataFrameViaFile")
-    public boolean dataFrameViaFile() {
-        StructType structType = new StructType().add("Character", DataTypes.StringType, false).add("Position", DataTypes.StringType, false);
 
-//        JavaRDD<String> fakeData = sparkContext.textFile("fake_data.csv");
-        String path = getClass().getResource("/fake_data.csv").getPath();
+    @GetMapping("/dataFrameViaFile") // sparksql
+    public boolean dataFrameViaFile() {
+        String path = getClass().getResource("/fake_data.txt").getPath();
         Dataset<Row> df = sparkSession.read()
                 .option("header", "true")        // Use the first row as header
                 .option("inferSchema", "true")  // Automatically infer column data types
                 .csv(path);
 
         df.createOrReplaceTempView("fake_data");
-        Dataset<Row> temp = sparkSession.sql("select country, count(*) as Youngsters_Count from fake_data where age between 20 and 50 group by country"); // Max youngsters country vise
+        Dataset<Row> temp = sparkSession.sql("select country, count(*) as Youngsters_Count from fake_data where age between 25 and 50 group by country"); // Max youngsters country vise
         temp.show(); // top 20 records
 
-        Dataset<Row> youngstersAcrossCountriesDf =  df.filter(new Column("age").between(20, 50));
+        Dataset<Row> youngstersAcrossCountriesDf =  df.filter(new Column("age").between(25, 50));
         log.info("Number of people between age 20 and 50 across the country {}",  youngstersAcrossCountriesDf.count()); // filter data by age
         youngstersAcrossCountriesDf.groupBy("country").agg(functions.count("*").alias("Youngsters_Count")).show(); // Max youngsters country vise
 
+        return true;
+    }
+
+    @GetMapping("/dataFrameRDD") // spark-core
+    public boolean dataFrameRDD() {
+        String path = getClass().getResource("/fake_data.txt").getPath();
+        JavaRDD<String> rdd = sparkContext.textFile(path);
+        String header = rdd.first();
+        JavaPairRDD<String, Integer> countryCounts = rdd
+                .filter(line -> !line.equals(header))// Skipping Header
+                .map(line -> line.split(",")) // Split each line by comma
+                .filter(fields -> {
+                    int age = Integer.parseInt(fields[2]); // Assuming age is the 3rd field (index 2)
+                    return age >= 25 && age <= 50;
+                })
+                .mapToPair(fields -> new Tuple2<>(fields[3], 1)) // Assuming country is the 4th field (index 3)
+                .reduceByKey(Integer::sum); // Count occurrences per country
+
+        // Step 5: Collect and print the results
+        countryCounts.collect().forEach(result -> {
+            log.info("Country: " + result._1 + ", Youngsters_Count: " + result._2);
+        });
+        return true;
+    }
+
+    @GetMapping("/externalFileSystemAsSource")
+    public boolean externalFileSystemAsSource() {
+        // s3a: - amazon s3 bucket, where files are fetched from s3 bucket
+        try {
+            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", "dummy-access-key");
+            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", "dummy-secret-key");
+            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
+            // Read a single text file
+            JavaRDD<String> stringJavaRDD = clusteredSparkContext.textFile("s3a://sk-bucket/dummyBigDataFile.txt");
+            stringJavaRDD.count();
+        } catch(Exception e) {
+           log.error("Error occurred while fetching from external system {}", e.getMessage());
+        }
         return true;
     }
 }

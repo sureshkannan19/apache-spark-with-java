@@ -20,4 +20,16 @@ public class SparkConfig {
     public JavaSparkContext getSparkContext(@Qualifier("sparkSession") SparkSession ss) {
         return new JavaSparkContext(ss.sparkContext());
     }
+
+    @Bean("clusterSparkSession")
+    public SparkSession getClusteredSparkSession() {
+        return SparkSession.builder()
+                .appName("SparkBasics")
+                .getOrCreate();
+    }
+
+    @Bean("clusterSparkContext")
+    public JavaSparkContext getClusteredSparkContext(@Qualifier("clusterSparkSession") SparkSession ss) {
+        return new JavaSparkContext(ss.sparkContext());
+    }
 }

@@ -62,3 +62,19 @@ Broadcast Variables and Accumulators: Manages shared variables used across nodes
 * It represents an **immutable** distributed collection of objects that can be processed in parallel across the cluster.
 * **Fault-tolerant**: meaning they can automatically recover lost partitions due to node failures.
 * **Lazy Evaluation:** Transformations on RDDs are not executed immediately. They are only computed when an action is triggered.
+
+<hr style="border: 3px solid;">
+
+**Standalone mode:**
+```
+SparkSession.builder().master("local[*]").appName("SparkBasics").getOrCreate();
+```
+* local --> Process the data in single thread.
+* local[*] --> where * represents number of logical cores(threads) equivalent to **Runtime.getRuntime().availableProcessors()**, 
+  Spark uses * option to partition the data and execute it parallel based on the number of logical cores. 
+* local[k] --> where k is hardcoded thread count, local[4]
+
+**Cluster mode:**
+```
+SparkSession.builder().appName("SparkBasics").getOrCreate();
+```
