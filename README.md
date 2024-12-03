@@ -45,8 +45,8 @@ Although both Spark and MapReduce does data processing, the way its done is the 
 ## Installation & Setup:
 * Step 1: Download <a href="https://spark.apache.org/downloads.html">Spark - Hadoop</a> binaries.
 * Step 2: For Hadoop binaries to work in windows, Download **winutils.exe** and **hadoop.dll** files from <a href="https://github.com/cdarlint/winutils">repo.</a>
-* Step 3: After downloading, place winutils.exe and hadoop.dll in hadoop folder(from Step 1).
-* For details installation and explanation of Spark in Java, check out <a href="https://github.com/backstreetbrogrammer/11_JavaSpark#23-download-winutilsexe-and-hadoopdll-only-for-windows">this repo</a>
+* Step 3: After downloading, place **winutils.exe** and **hadoop.dll** in **spark-3.5.3-bin-hadoop3\bin** path (from Step 1).
+* For detailed installation and explanation of Spark in Java, check out <a href="https://github.com/backstreetbrogrammer/11_JavaSpark#23-download-winutilsexe-and-hadoopdll-only-for-windows">this repo</a>
 
 ## JavaSparkContext:
 * It is the entry point for a Spark application.

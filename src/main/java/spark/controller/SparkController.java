@@ -31,7 +31,7 @@ public class SparkController {
     private JavaSparkContext sparkContext;
 
     @GetMapping("/parallelize")
-    public boolean s() {
+    public boolean parallelize() {
         JavaRDD<Integer> result = sparkContext.parallelize(List.of(1, 2, 3, 4, 5));
         log.info("Numbers count: {} ", result.count());
         log.info("Number of partitions: {} ", result.getNumPartitions());
