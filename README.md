@@ -10,8 +10,8 @@ To understand the need for Spark, lets start with Hadoop.
  to worker nodes and schedules jobs.
 
 # Spark:
-* Spark is a big data processing framework works in distributed environment like Hadoop's MapReduce, and its API provides a robust way
-  to handle large-scale data efficiently.
+* Spark is a big data distributed processing framework like Hadoop's MapReduce, and its API provides a robust way
+  to handle large-scale data efficiently, with key features listed below.
 * It's built on Scala Programming language.
 
 ### Spark Key features:
