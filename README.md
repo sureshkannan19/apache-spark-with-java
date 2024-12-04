@@ -78,3 +78,15 @@ SparkSession.builder().master("local[*]").appName("SparkBasics").getOrCreate();
 ```
 SparkSession.builder().appName("SparkBasics").getOrCreate();
 ```
+Spark application can be packaged only as a jar and deployed in a clustered environment such AWS EMR or standalone as desired.
+```
+spark-submit --master yarn --jars application.jar
+```
+Even though, spark is jar package, real time data processing is possible through, **spark-streaming** library
+1. **Kafka**: Real-time data processing through kafka
+2. Issues with Spark being a jar package and processing real-time data:
+* **Logs** : If cluster manager is yarn or kubernetes, where using kubectl we can ge the logs else we need to go 
+ for other logging mechanishm like Kibana (ELK stack)
+* **Deployment** : Gracefully shutdown existing jar and (Handle checkpoints or reprocessing mechanism) in case deploying new jar.
+  .option("startingOffsets", "latest") // Or "earliest" for replay -- for kafka
+  .option("checkpointLocation", "/path/to/checkpoint") -- to restart from last checkpoint
