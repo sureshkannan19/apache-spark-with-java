@@ -1,4 +1,4 @@
-package spark.config;
+package spark.common.config;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;

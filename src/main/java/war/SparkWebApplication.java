@@ -1,15 +1,17 @@
-package spark;
+package war;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
+@ComponentScan("spark.common")
 @Slf4j
-public class SparkApplication {
+public class SparkWebApplication {
 
     @Value("${hadoop.home.dir}")
     private String hadoopHomeDir;
@@ -21,6 +23,6 @@ public class SparkApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(SparkApplication.class, args);
+        SpringApplication.run(SparkWebApplication.class, args);
     }
 }

@@ -65,7 +65,7 @@ Broadcast Variables and Accumulators: Manages shared variables used across nodes
 
 <hr style="border: 3px solid;">
 
-**Standalone mode:**
+**<a href="https://github.com/sureshkannan19/apache-spark-with-java/tree/main/src/main/war/SparkWebApplication.java">Standalone mode</a>:**
 ```
 SparkSession.builder().master("local[*]").appName("SparkBasics").getOrCreate();
 ```
@@ -74,7 +74,7 @@ SparkSession.builder().master("local[*]").appName("SparkBasics").getOrCreate();
   Spark uses * option to partition the data and execute it parallel based on the number of logical cores. 
 * local[k] --> where k is hardcoded thread count, local[4]
 
-**Cluster mode:**
+**<a href="https://github.com/sureshkannan19/apache-spark-with-java/tree/main/src/main/jar/SparkJarEntryApplication.java">Cluster mode</a>:** 
 ```
 SparkSession.builder().appName("SparkBasics").getOrCreate();
 ```
@@ -83,10 +83,66 @@ Spark application can be packaged only as a jar and deployed in a clustered envi
 spark-submit --master yarn --jars application.jar
 ```
 Even though, spark is jar package, real time data processing is possible through, **spark-streaming** library
-1. **Kafka**: Real-time data processing through kafka
-2. Issues with Spark being a jar package and processing real-time data:
+where **Kafka** can be used as a source of streaming real-time data.
+
+**Note: With Spark jobs being executed via and processing real-time data:**
 * **Logs** : If cluster manager is yarn or kubernetes, where using kubectl we can ge the logs else we need to go 
- for other logging mechanishm like Kibana (ELK stack)
+ for other logging mechanism like Kibana (ELK stack)
 * **Deployment** : Gracefully shutdown existing jar and (Handle checkpoints or reprocessing mechanism) in case deploying new jar.
   .option("startingOffsets", "latest") // Or "earliest" for replay -- for kafka
   .option("checkpointLocation", "/path/to/checkpoint") -- to restart from last checkpoint
+
+**Accessing External file system**:
+```
+clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", "access-key"); -- provide ur own aws s3 bucket access-key
+clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", "secret-key"); -- provide ur own aws s3 bucket secret-key
+clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
+JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.txt"); -- s3a://{yourbucketname}//{filename}
+```
+**Steps to create s3 storage:**
+1. Create aws free tier account
+2. search s3, create bucket name (should be unique globally) 
+3. Create <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html">user group</a>(link to amazon website) in aws.
+4. Create <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-key-self-managed.html#Using_CreateAccessKey">access key</a>(link to amazon website) in aws.
+5. On Step 5, access and secret key will be downloaded on your browser in csv format.
+
+**Steps to create cluster:**
+1. Search EMR(ElasticMapReduce), select Spark and Hadoop version as you desire
+2. Provide necessary details, such as instance count and its memory(ideally go for c4.large or m5.xlarge)
+3. **Cluster termination and node replacement**: Select auto terminate on idle time and provide the timings as you desire.
+4. Rest leave it as it is and create cluster
+5. Now if server started successfully we should see
+![img_1.png](emr_ec2_cluster_started.png)
+6. Connect to EC2 EMR instance from cli or putty
+**For Putty:** follow below steps
+![img.png](putty.png)
+
+**For Cli**: Get cluster id from above screenshot and execute below command
+```
+ssh -i yoursecuritykey.pem hadoop@ec2-65-1-93-113.ap-south-1.compute.amazonaws.com
+```
+![img.png](startingPoint.png)
+
+**Set read/write permission**: First time you'll see, **permission too open error**, you need to set permission for your .pem file, 
+so that only you can read or write that file. 
+```
+chmod 600 yoursecuritykey.pem
+```
+After that EMR clustered is connected from CLI successfully as below
+![img_1.png](succes.png)
+
+Upload your executable jar file to s3 bucket and copy that file to your EMR cluster using below cmd
+```
+aws s3 cp s3a://skpocb1/yourjar.jar .
+```
+**Note:** "." at the end indicates current working directory of the cluster.
+
+After execute that copied jar file using below command
+```
+spark-submit yourjarname.jar
+```
+![img.png](sparkCommand.png)
+
+After that, you can check cli console or Spark UI,
+where each instance metrics such as (time, memory, partitions) can be found.
+![img.png](img.png)
