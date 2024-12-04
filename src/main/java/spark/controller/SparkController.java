@@ -30,7 +30,7 @@ public class SparkController {
     private JavaSparkContext sparkContext;
 
     @Autowired
-    @Qualifier("clusteredSparkContext")
+    @Qualifier("clusterSparkContext")
     private JavaSparkContext clusteredSparkContext;
 
     @GetMapping("/parallelize")
@@ -84,6 +84,28 @@ public class SparkController {
     public boolean dataFrameRDD() {
         String path = getClass().getResource("/fake_data.txt").getPath();
         JavaRDD<String> rdd = sparkContext.textFile(path);
+        processRDD(rdd);
+        return true;
+    }
+
+    @GetMapping("/externalFileSystemAsSource")
+    public boolean externalFileSystemAsSource() {
+        // s3a: - amazon s3 bucket, where files are fetched from s3 bucket
+        try {
+            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", null);
+            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", null);
+            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
+            // Read a single text file
+            JavaRDD<String> stringJavaRDD = clusteredSparkContext.textFile("s3a://sk-bucket/dummyBigDataFile.txt");
+            stringJavaRDD.count();
+            processRDD(stringJavaRDD);
+        } catch(Exception e) {
+           log.error("Error occurred while fetching from external system {}", e.getMessage());
+        }
+        return true;
+    }
+
+    private void processRDD(JavaRDD<String> rdd) {
         String header = rdd.first();
         JavaPairRDD<String, Integer> countryCounts = rdd
                 .filter(line -> !line.equals(header))// Skipping Header
@@ -99,22 +121,6 @@ public class SparkController {
         countryCounts.collect().forEach(result -> {
             log.info("Country: " + result._1 + ", Youngsters_Count: " + result._2);
         });
-        return true;
     }
 
-    @GetMapping("/externalFileSystemAsSource")
-    public boolean externalFileSystemAsSource() {
-        // s3a: - amazon s3 bucket, where files are fetched from s3 bucket
-        try {
-            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", "dummy-access-key");
-            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", "dummy-secret-key");
-            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
-            // Read a single text file
-            JavaRDD<String> stringJavaRDD = clusteredSparkContext.textFile("s3a://sk-bucket/dummyBigDataFile.txt");
-            stringJavaRDD.count();
-        } catch(Exception e) {
-           log.error("Error occurred while fetching from external system {}", e.getMessage());
-        }
-        return true;
-    }
 }
