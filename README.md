@@ -90,12 +90,14 @@ spark-submit --master yarn --jars application.jar
 Even though, spark is jar package, real time data processing is possible through, **spark-streaming** library
 where **Kafka** can be used as a source of streaming real-time data.
 
-**Note: With Spark jobs being executed via and processing real-time data:**
+**Note: With Spark jobs being executed as jars and processing real-time data, below scenarios should be handled:**
 * **Logs** : If cluster manager is yarn or kubernetes, where using kubectl we can ge the logs else we need to go
   for other logging mechanism like Kibana (ELK stack)
 * **Deployment** : Gracefully shutdown existing jar and (Handle checkpoints or reprocessing mechanism) in case deploying new jar.
   .option("startingOffsets", "latest") // Or "earliest" for replay -- for kafka
   .option("checkpointLocation", "/path/to/checkpoint") -- to restart from last checkpoint
+
+<hr style="border: 3px solid;">
 
 **Accessing External file system**:
 ```
@@ -110,6 +112,8 @@ JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.t
 3. Create <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html">user group</a>(link to amazon website) in aws.
 4. Create <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-key-self-managed.html#Using_CreateAccessKey">access key</a>(link to amazon website) in aws.
 5. On Step 5, access and secret key will be downloaded on your browser in csv format.
+
+<hr style="border: 3px solid;">
 
 **Steps to create cluster:**
 1. Search EMR(ElasticMapReduce), select Spark and Hadoop version as you desire
