@@ -65,7 +65,7 @@ Broadcast Variables and Accumulators: Manages shared variables used across nodes
 
 <hr style="border: 3px solid;">
 
-**<a href="https://github.com/sureshkannan19/apache-spark-with-java/tree/main/src/main/war/SparkWebApplication.java">Standalone mode</a>:**
+**<a href="https://github.com/sureshkannan19/apache-spark-with-java/tree/main/src/main/war/SparkApplication.java">Standalone mode</a>:**
 ```
 SparkSession.builder().master("local[*]").appName("SparkBasics").getOrCreate();
 ```
