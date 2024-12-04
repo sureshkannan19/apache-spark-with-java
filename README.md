@@ -93,9 +93,9 @@ where **Kafka** can be used as a source of streaming real-time data.
 **Note: With Spark jobs being executed as jars and processing real-time data, below scenarios should be handled:**
 * **Logs** : If cluster manager is yarn or kubernetes, where using kubectl we can ge the logs else we need to go
   for other logging mechanism like Kibana (ELK stack)
-* **Deployment** : Gracefully shutdown existing jar and (Handle checkpoints or reprocessing mechanism) in case deploying new jar.
+* **Deployment** : Gracefully shutdown existing jar and (Handle checkpoints or reprocessing mechanism) in case deploying new jar.<br>
   .option("startingOffsets", "latest") // Or "earliest" for replay -- for kafka <br>
-  .option("checkpointLocation", "/path/to/checkpoint") -- to restart from last checkpoint
+  .option("checkpointLocation", "/path/to/checkpoint") -- to restart from last checkpoint 
 
 <hr style="border: 3px solid;">
 
