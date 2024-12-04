@@ -16,13 +16,8 @@ public class SparkJarEntryApplication {
         try {
             SparkSession ss = SparkSession.builder().appName("SparkBasics").getOrCreate();
             JavaSparkContext clusteredSparkContext = new JavaSparkContext(ss.sparkContext());
-<<<<<<< HEAD
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", null);
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", null);
-=======
-            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", "AKIAZKDIC3R5AWU3Q5H6");
-            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", "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");
->>>>>>> parent of 34b3217 (Updated README.md)
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
             // Read a single text file
             JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.txt");

@@ -86,13 +86,8 @@ public class SparkController {
     public boolean externalFileSystemAsSource() {
         // s3a: - amazon s3 bucket, where files are fetched from s3 bucket
         try {
-<<<<<<< HEAD
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", null);
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", null);
-=======
-            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", "AKIAZKDIC3R5AWU3Q5H6");
-            clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", "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");
->>>>>>> parent of 34b3217 (Updated README.md)
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
             // Read a single text file
             JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.txt");
