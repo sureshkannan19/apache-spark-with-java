@@ -127,19 +127,27 @@ JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.t
    **For Putty:** follow below steps
    ![img.png](putty.png)
 
+<br>
+
 **For Cli**: Get cluster id from above screenshot and execute below command
 ```
 ssh -i yoursecuritykey.pem hadoop@ec2-65-1-93-113.ap-south-1.compute.amazonaws.com
 ```
 ![img.png](startingPoint.png)
 
+<br>
+
 **Set read/write permission**: First time you'll see, **permission too open error**, you need to set permission for your .pem file,
 so that only you can read or write that file.
 ```
 chmod 600 yoursecuritykey.pem
 ```
+<br>
+
 Connection to EMR Instance from CLI is success as below
 ![img_1.png](success.png)
+
+<br>
 
 Upload your executable jar file to s3 bucket and copy that file to your EMR cluster using below cmd
 ```
@@ -147,12 +155,15 @@ aws s3 cp s3://skpocb1/yourjar.jar .
 ```
 **Note:** "." at the end indicates current working directory of the cluster.
 
+<br>
+
 After copying the jar, execute spark job using below command
 ```
 spark-submit yourjarname.jar
 ```
 ![img.png](sparkCommand.png)
 
+<br>
 
 ### SerializedLambda exception in Clustered Environment:
 ```
@@ -173,3 +184,5 @@ like</a> (link to file) below.
 
 Using Spark UI, metrics such as (time, memory, partitions, executors)  can be found.
 ![img.png](SparkUI.png)
+
+As we used two worker nodes(two instances), task is shared between two executors as described in above screenshot.
