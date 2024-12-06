@@ -161,7 +161,7 @@ spark-submit yourjarname.jar
 ```
 In Clustered Environment, Spark throws above issue, reason is Driver Program(Application Code) should be copied to Worker Nodes as well.
 <a href="https://stackoverflow.com/questions/28186607/java-lang-classcastexception-using-lambda-expressions-in-spark-job-on-remote-ser">Explained</a>(link to stackoverflow).
-To fix it, **setJars** should be populated <a href="https://github.com/sureshkannan19/apache-spark-with-java/blob/main/apache-spark-with-java8_jar/src/main/java/jar/SparkJarEntryApplication.java>
+To fix it, **setJars** should be populated <a href="https://github.com/sureshkannan19/apache-spark-with-java/blob/main/apache-spark-with-java8_jar/src/main/java/jar/SparkJarEntryApplication.java">
 like</a> (link to file) below.
 
 ``` 
