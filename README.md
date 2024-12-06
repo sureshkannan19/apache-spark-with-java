@@ -169,7 +169,6 @@ like</a> (link to file) below.
                     .config(new SparkConf()
                             .setJars(new String[] {"apache-spark-with-java8-1.0-SNAPSHOT.jar"}))
                     .getOrCreate();
-
 ```
 
 If everything went or not, we can check it at cli console or Spark UI,
