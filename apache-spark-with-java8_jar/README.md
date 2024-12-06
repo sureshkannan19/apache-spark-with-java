@@ -2,12 +2,12 @@
 To understand the need for Spark, lets start with Hadoop.
 <hr style="border: 3px solid;">
 
-# Native Hadoop features:
-* **HDFS** (Hadoop Distributed File System): It acts as a **distributed storage layer**.
+# Native Hadoop features: 
+* **HDFS** (Hadoop Distributed File System): It acts as a **distributed storage layer**. 
   HDFS is great for storing large-scale data but **does not have querying capabilities**.
-* **MapReduce**: A distributed data processing framework that operates over the data stored in HDFS only.
-* **YARN** (Yet Another Resource Manager): YARN as the cluster manager, allocates resources (CPU, memory)
-  to worker nodes and schedules jobs.
+* **MapReduce**: A distributed data processing framework that operates over the data stored in HDFS only. 
+* **YARN** (Yet Another Resource Manager): YARN as the cluster manager, allocates resources (CPU, memory) 
+ to worker nodes and schedules jobs.
 
 # Spark:
 * Spark is a big data distributed processing framework like Hadoop's MapReduce, and its API provides a robust way
@@ -22,17 +22,17 @@ To understand the need for Spark, lets start with Hadoop.
 
 <hr style="border: 3px solid;">
 
-## Spark Vs Hadoop's MapReduce:
+## Spark Vs Hadoop's MapReduce: 
 Although both Spark and MapReduce does data processing, the way its done is the chief difference.
 * **Speed**: Spark can perform operations up to 100X faster than MapReduce because MapReduce writes most of the **data to disk**
   after each map and reduce operation; however Spark keeps most of the data **in memory** after each transformation.
   Spark will write to disk only when the memory is full.
 * **Flexible Storage system**: MapReduce requires files to be stored only in HDFS, while
-  Spark can work on data stored in a variety of formats like **HDFS, AWS S3, Cassandra, HBase** etc.
+    Spark can work on data stored in a variety of formats like **HDFS, AWS S3, Cassandra, HBase** etc.
 *  **Querying Capabilities**: Hadoop natively doesn't support querying data, hence tools such as
-   **Hive, Hbase, Pig, SparkSQL**  is built on top of HDFS to provide querying features
+    **Hive, Hbase, Pig, SparkSQL**  is built on top of HDFS to provide querying features
 * **SparkSql - DataFrame API** : a distributed collection of data organized into named columns, resembling a table in a relational database.
-* **Real-time analytics**: Spark is effective when compared to Hadoop, because Hadoop persist to disk to store
+* **Real-time analytics**: Spark is effective when compared to Hadoop, because Hadoop persist to disk to store 
   intermittent result of map and reduce operations, which results in lot of I/O operations,
   hence hadoop not good for real-time and iterative processes.
 
@@ -55,7 +55,7 @@ Although both Spark and MapReduce does data processing, the way its done is the 
 * **Cluster Communication**: Connects with the cluster manager (YARN, Mesos, Kubernetes or Spark Standalone) to request resources for executing tasks.
 * **Job Scheduling**: Breaks down a Spark application into stages and tasks, then schedules their execution across the cluster.
 * **RDD Creation**: Creates RDDs from external data sources (e.g., HDFS, S3, local file systems).
-  Broadcast Variables and Accumulators: Manages shared variables used across nodes.
+Broadcast Variables and Accumulators: Manages shared variables used across nodes.
 
 ## Spark RDD:
 * **RDD**(Resilient Distributed Dataset) is the fundamental data abstraction in Spark.
@@ -65,40 +65,32 @@ Although both Spark and MapReduce does data processing, the way its done is the 
 
 <hr style="border: 3px solid;">
 
-To let Spark access **java.base/sun.nio.cha** packages, else will get unaccessible error.
-```
---add-opens=java.base/sun.nio.ch=ALL-UNNAMED
-```
-
-**<a href="https://github.com/sureshkannan19/apache-spark-with-java/blob/main/src/main/java/jar/SparkJarApplication.java">Standalone mode</a>:**
+**<a href="https://github.com/sureshkannan19/apache-spark-with-java/tree/main/src/main/war/SparkWebApplication.java">Standalone mode</a>:**
 ```
 SparkSession.builder().master("local[*]").appName("SparkBasics").getOrCreate();
 ```
 * local --> Process the data in single thread.
-* local[*] --> where * represents number of logical cores(threads) equivalent to **Runtime.getRuntime().availableProcessors()**,
-  Spark uses * option to partition the data and execute it parallel based on the number of logical cores.
+* local[*] --> where * represents number of logical cores(threads) equivalent to **Runtime.getRuntime().availableProcessors()**, 
+  Spark uses * option to partition the data and execute it parallel based on the number of logical cores. 
 * local[k] --> where k is hardcoded thread count, local[4]
 
-**<a href="https://github.com/sureshkannan19/apache-spark-with-java/blob/main/src/main/java/war/SparkApplication.java">Cluster mode</a>:**
+**<a href="https://github.com/sureshkannan19/apache-spark-with-java/tree/main/src/main/jar/SparkJarEntryApplication.java">Cluster mode</a>:** 
 ```
 SparkSession.builder().appName("SparkBasics").getOrCreate();
 ```
-
-Spark application can be packaged only as a **jar** and deployed in a clustered environment such AWS EMR or standalone as desired.
+Spark application can be packaged only as a jar and deployed in a clustered environment such AWS EMR or standalone as desired.
 ```
-spark-submit --master yarn application.jar
+spark-submit --master yarn --jars application.jar
 ```
 Even though, spark is jar package, real time data processing is possible through, **spark-streaming** library
 where **Kafka** can be used as a source of streaming real-time data.
 
-**Note: With Spark jobs being executed as jars and processing real-time data, below scenarios should be handled:**
-* **Logs** : If cluster manager is yarn or kubernetes, where using kubectl we can ge the logs else we need to go
-  for other logging mechanism like Kibana (ELK stack)
-* **Deployment** : Gracefully shutdown existing jar and (Handle checkpoints or reprocessing mechanism) in case deploying new jar.<br>
-  .option("startingOffsets", "latest") // Or "earliest" for replay -- for kafka <br>
+**Note: With Spark jobs being executed via and processing real-time data:**
+* **Logs** : If cluster manager is yarn or kubernetes, where using kubectl we can ge the logs else we need to go 
+ for other logging mechanism like Kibana (ELK stack)
+* **Deployment** : Gracefully shutdown existing jar and (Handle checkpoints or reprocessing mechanism) in case deploying new jar.
+  .option("startingOffsets", "latest") // Or "earliest" for replay -- for kafka
   .option("checkpointLocation", "/path/to/checkpoint") -- to restart from last checkpoint
-
-<hr style="border: 3px solid;">
 
 **Accessing External file system**:
 ```
@@ -109,68 +101,9 @@ JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.t
 ```
 **Steps to create s3 storage:**
 1. Create aws free tier account
-2. search s3, create bucket name (should be unique globally)
+2. search s3, create bucket name (should be unique globally) 
 3. Create <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html">user group</a>(link to amazon website) in aws.
 4. Create <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-key-self-managed.html#Using_CreateAccessKey">access key</a>(link to amazon website) in aws.
 5. On Step 5, access and secret key will be downloaded on your browser in csv format.
 
-<hr style="border: 3px solid;">
-
 **Steps to create cluster:**
-1. Search EMR(ElasticMapReduce), select Spark and Hadoop version as you desire
-2. Provide necessary details, such as instance count and its memory(ideally go for c4.large or m5.xlarge)
-3. **Cluster termination and node replacement**: Select auto terminate on idle time and provide the timings as you desire.
-4. Rest leave it as it is and create cluster
-5. Now if server started successfully we should see
-   ![img_1.png](emr_ec2_cluster_started.png)
-6. Connect to EC2 EMR instance from cli or putty
-   **For Putty:** follow below steps
-   ![img.png](putty.png)
-
-**For Cli**: Get cluster id from above screenshot and execute below command
-```
-ssh -i yoursecuritykey.pem hadoop@ec2-65-1-93-113.ap-south-1.compute.amazonaws.com
-```
-![img.png](startingPoint.png)
-
-**Set read/write permission**: First time you'll see, **permission too open error**, you need to set permission for your .pem file,
-so that only you can read or write that file.
-```
-chmod 600 yoursecuritykey.pem
-```
-After that EMR clustered is connected from CLI successfully as below
-![img_1.png](success.png)
-
-Upload your executable jar file to s3 bucket and copy that file to your EMR cluster using below cmd
-```
-aws s3 cp s3://skpocb1/yourjar.jar .
-```
-**Note:** "." at the end indicates current working directory of the cluster.
-
-After execute that copied jar file using below command
-```
-spark-submit yourjarname.jar
-```
-![img.png](sparkCommand.png)
-
-
-### SerializedLambda exception in Clustered Environment:
-```
- java.lang.ClassCastException: cannot assign instance of java.lang.invoke.SerializedLambda to field org.apache.spark.rdd.MapPartitionsRDD.f of
-  type scala.Function3 in instance of org.apache.spark.rdd.MapPartitionsRDD
-```
-In Clustered Environment, Spark throws above issue, reason is Driver Program(Application Code) should be copied to Worker Nodes as well.
-<a href="https://stackoverflow.com/questions/28186607/java-lang-classcastexception-using-lambda-expressions-in-spark-job-on-remote-ser">Explained</a>(link to stackoverflow).
-To fix it, **setJars** should be populated like (link to file) below.
-
-``` 
- SparkSession ss = SparkSession.builder().appName("SparkBasics")
-                    .config(new SparkConf()
-                            .setJars(new String[] {"apache-spark-with-java8-1.0-SNAPSHOT.jar"}))
-                    .getOrCreate();
-
-```
-
-If everything went or not, we can check it at cli console or Spark UI,
-where metrics such as (time, memory, partitions, executors) details can be found.
-![img.png](SparkUI.png)

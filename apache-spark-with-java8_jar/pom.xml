@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.sk</groupId>
-    <artifactId>apache-spark-with-java8</artifactId>
+    <artifactId>apache-spark-with-java8-jar</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -20,9 +20,7 @@
         <mockito.version>4.11.0</mockito.version>
         <jmh.version>1.36</jmh.version>
     </properties>
-    <modules>
-        <module>apache-spark-with-java8_jar</module>
-    </modules>
+
     <dependencies>
         
         <dependency>
