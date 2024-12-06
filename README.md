@@ -138,7 +138,7 @@ so that only you can read or write that file.
 ```
 chmod 600 yoursecuritykey.pem
 ```
-After that EMR clustered is connected from CLI successfully as below
+Connection to EMR Instance from CLI is success as below
 ![img_1.png](success.png)
 
 Upload your executable jar file to s3 bucket and copy that file to your EMR cluster using below cmd
@@ -147,7 +147,7 @@ aws s3 cp s3://skpocb1/yourjar.jar .
 ```
 **Note:** "." at the end indicates current working directory of the cluster.
 
-After execute that copied jar file using below command
+After copying the jar, execute spark job using below command
 ```
 spark-submit yourjarname.jar
 ```
