@@ -171,6 +171,5 @@ like</a> (link to file) below.
                     .getOrCreate();
 ```
 
-If everything went or not, we can check it at cli console or Spark UI,
-where metrics such as (time, memory, partitions, executors) details can be found.
+Using Spark UI, metrics such as (time, memory, partitions, executors)  can be found.
 ![img.png](SparkUI.png)
