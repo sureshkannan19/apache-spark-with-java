@@ -121,7 +121,8 @@ JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.t
 2. Provide necessary details, such as instance count and its memory(ideally go for c4.large or m5.xlarge)
 3. **Cluster termination and node replacement**: Select auto terminate on idle time and provide the timings as you desire.
 4. Rest leave it as it is and create cluster
-5. Now if server started successfully we should see
+5. Now if cluster started successfully we should see as below in **Waiting** Status and 
+   number of instances running in that cluster is at the bottom of the page in Instance Group
    ![img_1.png](emr_ec2_cluster_started.png)
 6. Connect to EC2 EMR instance from cli or putty
    **For Putty:** follow below steps
@@ -129,11 +130,19 @@ JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.t
 
 <br>
 
-**For Cli**: Get cluster id from above screenshot and execute below command
+**For Ubuntu Cli**: Get cluster id from above screenshot and execute below command
 ```
 ssh -i yoursecuritykey.pem hadoop@ec2-65-1-93-113.ap-south-1.compute.amazonaws.com
 ```
 ![img.png](startingPoint.png)
+
+<br>
+
+**Network Error : Connection timeout for port 22 via SSH:** 
+1. Go to Network & Security --> Security Groups --> Select you Security Group Id (whichever used while creating Cluster) --> Select Inbound Rules as below
+![img.png](SecurityGroups.png)
+2. Add Rule to let communication Via SSH through port 22 as below and update the security groups
+![img_1.png](InboundRules.png)
 
 <br>
 
@@ -144,7 +153,7 @@ chmod 600 yoursecuritykey.pem
 ```
 <br>
 
-Connection to EMR Instance from CLI is success as below
+Connection to EMR Cluster from CLI is success as below
 ![img_1.png](success.png)
 
 <br>
