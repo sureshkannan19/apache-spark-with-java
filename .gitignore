@@ -1,0 +1,18 @@
+# Ignore compiled class files
+*.class
+
+# Ignore package files
+*.jar
+*.war
+*.ear
+
+# Ignore build directories
+target/
+build/
+
+# Ignore IDE settings (Eclipse, IntelliJ, etc.)
+*.idea/
+*.project
+*.classpath
+*.settings/
+out/
