@@ -70,7 +70,7 @@ To let Spark access **java.base/sun.nio.cha** packages, else will get unaccessib
 --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
 ```
 
-**<a href="https://github.com/sureshkannan19/apache-spark-with-java/blob/main/src/main/java/jar/SparkJarApplication.java">Standalone mode</a>:**
+**<a href="https://github.com/sureshkannan19/apache-spark-with-java/blob/main/apache-spark-with-java8_war/src/main/java/spark/config/SparkConfig.java">Standalone mode</a>:**
 ```
 SparkSession.builder().master("local[*]").appName("SparkBasics").getOrCreate();
 ```
@@ -79,7 +79,7 @@ SparkSession.builder().master("local[*]").appName("SparkBasics").getOrCreate();
   Spark uses * option to partition the data and execute it parallel based on the number of logical cores.
 * local[k] --> where k is hardcoded thread count, local[4]
 
-**<a href="https://github.com/sureshkannan19/apache-spark-with-java/blob/main/src/main/java/war/SparkApplication.java">Cluster mode</a>:**
+**<a href="https://github.com/sureshkannan19/apache-spark-with-java/blob/main/apache-spark-with-java8_jar/src/main/java/jar/SparkJarEntryApplication.java">Cluster mode</a>:**
 ```
 SparkSession.builder().appName("SparkBasics").getOrCreate();
 ```
