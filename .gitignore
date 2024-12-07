@@ -1,3 +1,7 @@
+# Ignore build directories
+target/
+build/
+
 # Ignore compiled class files
 *.class
 
@@ -6,9 +10,6 @@
 *.war
 *.ear
 
-# Ignore build directories
-target/
-build/
 
 # Ignore IDE settings (Eclipse, IntelliJ, etc.)
 *.idea/
