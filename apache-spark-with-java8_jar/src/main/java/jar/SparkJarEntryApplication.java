@@ -23,7 +23,7 @@ public class SparkJarEntryApplication {
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", null);
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
             // Read a single text file
-            JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.txt");
+            JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://mybucket//fake_data.txt");
             System.out.println("Overall Count from file stored in S3 Bucket: "+ rdd.count());
             String header = rdd.first();
             JavaPairRDD<String, Integer> countryCounts = rdd.filter(line -> !line.equals(header))// Skipping Header

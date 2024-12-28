@@ -105,7 +105,7 @@ where **Kafka** can be used as a source of streaming real-time data.
 clusteredSparkContext.hadoopConfiguration().set("fs.s3a.access.key", "access-key"); -- provide ur own aws s3 bucket access-key
 clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", "secret-key"); -- provide ur own aws s3 bucket secret-key
 clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
-JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://skpocb1//fake_data.txt"); -- s3a://{yourbucketname}//{filename}
+JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://mybucket//fake_data.txt"); -- s3a://{yourbucketname}//{filename}
 ```
 **Steps to create s3 storage:**
 1. Create aws free tier account
@@ -160,7 +160,7 @@ Connection to EMR Cluster from CLI is success as below
 
 Upload your executable jar file to s3 bucket and copy that file to your EMR cluster using below cmd
 ```
-aws s3 cp s3://skpocb1/yourjar.jar .
+aws s3 cp s3://mybucket/yourjar.jar .
 ```
 **Note:** "." at the end indicates current working directory of the cluster.
 

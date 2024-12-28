@@ -97,7 +97,7 @@ public class SparkController {
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.secret.key", null);
             clusteredSparkContext.hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
             // Read a single text file
-            JavaRDD<String> stringJavaRDD = clusteredSparkContext.textFile("s3a://skpocb1/fake_data.txt");
+            JavaRDD<String> stringJavaRDD = clusteredSparkContext.textFile("s3a://mybucket/fake_data.txt");
             stringJavaRDD.count();
             processRDD(stringJavaRDD);
         } catch(Exception e) {
