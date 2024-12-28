@@ -1,5 +1,6 @@
 # Apace Spark - Learning
-To understand the need for Spark, lets start with Hadoop.
+Spark is distributed big data processing framework, Hadoop is the pioneer of big data processing, 
+but Spark is the optimized and flexible way of doing it, to understand the need for Spark, lets start with Hadoop.
 <hr style="border: 3px solid;">
 
 # Native Hadoop features:
