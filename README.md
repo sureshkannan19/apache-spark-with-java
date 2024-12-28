@@ -124,9 +124,16 @@ JavaRDD<String> rdd = clusteredSparkContext.textFile("s3a://mybucket//fake_data.
 5. Now if cluster started successfully we should see as below in **Waiting** Status and 
    number of instances running in that cluster is at the bottom of the page in Instance Group
    ![img_1.png](emr_ec2_cluster_started.png)
-6. Connect to EC2 EMR instance from cli or putty
-   **For Putty:** follow below steps
-   ![img.png](putty.png)
+6. Connect to EC2 EMR instance from **windows**(using putty and .ppk file) or Linux (Ubuntu or any Linux Cli and .pem file )
+7. **For Putty:** follow below steps
+   ![img.png](putty.png) 
+8. To connect to aws instance from linux cli, need the security/credentials '.pem' file 
+   and once you generated '.pem' file, it will be inside windows, to copy the file from windows to linux, use below commands
+   ```
+    Change directory to .pem file location using command : cd /mnt/c/Users/{username}/git/spark
+    Check current directory using command : pwd
+    Copy file from windows to linux using command : cp {yourpemsecurityfile}.pem /home/{username}
+   ```
 
 <br>
 
